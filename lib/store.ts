@@ -131,6 +131,7 @@ interface PlannerStore {
   selectedActivityId: string | null
   lastPlanExecTool: "plan" | "execute"  // erase가 참조하는 마지막 plan/execute 모드
   theme: "light" | "dark"
+  onboardingDone: boolean
   
   // 데이터
   activities: Activity[]
@@ -178,6 +179,7 @@ interface PlannerStore {
   setActiveTool: (tool: Tool) => void
   setSelectedActivityId: (id: string | null) => void
   setTheme: (theme: "light" | "dark") => void
+  setOnboardingDone: () => void
   setRightPanelOpen: (open: boolean) => void
   
   // 액션 - Activity
@@ -349,6 +351,7 @@ export const usePlannerStore = create<PlannerStore>()(
       selectedActivityId: "class",
       lastPlanExecTool: "execute" as const,
       theme: "light",
+      onboardingDone: false,
       
       // 데이터 초기값
       activities: defaultActivities,
@@ -401,6 +404,7 @@ export const usePlannerStore = create<PlannerStore>()(
       }),
       setSelectedActivityId: (id) => set({ selectedActivityId: id }),
       setTheme: (theme) => set({ theme: theme }),
+      setOnboardingDone: () => set({ onboardingDone: true }),
       setRightPanelOpen: (open) => set({ rightPanelOpen: open }),
       
       // 액션 - Activity
@@ -1325,6 +1329,7 @@ export const usePlannerStore = create<PlannerStore>()(
         checklistBlocksByDate: state.checklistBlocksByDate,
         startHour: state.startHour,
         theme: state.theme,
+        onboardingDone: state.onboardingDone,
         dailyRoutines: state.dailyRoutines,
         weeklyRoutines: state.weeklyRoutines,
         stepsByDate: state.stepsByDate,

@@ -16,6 +16,7 @@ import { BottomNavigation } from "./planner/bottom-navigation"
 import { ConditionHomePanel, getConditionEmoji } from "./planner/condition-view"
 import { VoiceInputFloatingButton } from "./planner/voice-block-input"
 import { usePlannerStore, formatDateISO } from "@/lib/store"
+import { OnboardingScreen } from "@/components/onboarding"
 
 // ── 서브 뷰 상단 타이틀 바 ────────────────────────────────────────────────────
 const VIEW_TITLES: Partial<Record<string, string>> = {
@@ -154,10 +155,15 @@ function MemoPanel({ onClose }: { onClose: () => void }) {
 }
 
 export function LifeLogPlanner() {
-  const { viewMode, startHour, clearDayData, selectedDate, conditionLogs } = usePlannerStore()
+  const { viewMode, startHour, clearDayData, selectedDate, conditionLogs, onboardingDone } = usePlannerStore()
   const [showChecklist, setShowChecklist] = useState(false)
   const [showCondition, setShowCondition] = useState(false)
   const [showMemo, setShowMemo] = useState(false)
+
+  // ── 온보딩 미완료 시 온보딩 화면 렌더 ─────────────────────────
+  if (!onboardingDone) {
+    return <OnboardingScreen />
+  }
 
   const todayISO = formatDateISO(selectedDate)
   const todayLog = conditionLogs.find(c => c.dateISO === todayISO)
