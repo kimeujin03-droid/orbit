@@ -5,6 +5,7 @@
 import { create } from "zustand"
 import { immer } from "zustand/middleware/immer"
 import { persist } from "zustand/middleware"
+import { idbStorage } from "@/lib/idb-storage"
 import type {
   Activity,
   Block,
@@ -1287,6 +1288,7 @@ export const usePlannerStore = create<PlannerStore>()(
     {
       name: "life-log-planner-storage",
       version: 2,
+      storage: idbStorage,
       migrate: (persisted: any, version: number) => {
         // v0/v1 → v2: 기본 활동 목록이 taxonomy 기반으로 변경됨
         if (version < 2) {
